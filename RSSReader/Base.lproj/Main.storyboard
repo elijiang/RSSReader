@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="USM-PD-s3T">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller - Feeds-->
+        <scene sceneID="Wd8-aA-a33">
+            <objects>
+                <tableViewController id="JKr-mW-vMk" customClass="RSSURLViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="X44-kh-zSt">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RSS List Cell" id="Vzz-Aj-QaM">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vzz-Aj-QaM" id="IEz-4J-84x">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="fzK-Xr-ean" kind="push" identifier="Show RSS Content" id="fJp-Qj-KHZ"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="JKr-mW-vMk" id="RBl-di-Eiz"/>
+                            <outlet property="delegate" destination="JKr-mW-vMk" id="57c-xW-JgU"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Feeds" id="EA9-YC-Ylk">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yGV-9L-XyX">
+                            <connections>
+                                <segue destination="7hU-Du-OFo" kind="modal" identifier="Add Feed" id="MmJ-mx-7ZA"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hYd-1G-7U8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1185" y="79"/>
+        </scene>
+        <!--Add Feed View Controller - Add Feed-->
+        <scene sceneID="kO0-be-VHF">
+            <objects>
+                <viewController id="Rhu-rJ-qe8" customClass="RSSAddFeedViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Jp-z6-hC3"/>
+                        <viewControllerLayoutGuide type="bottom" id="LdR-5g-zBs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wJD-Xh-GuY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dcu-51-k5W">
+                                <rect key="frame" x="145" y="173" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addFeed:" destination="Rhu-rJ-qe8" eventType="touchUpInside" id="nWC-WK-Xo7"/>
+                                    <segue destination="1vJ-4a-cnR" kind="unwind" unwindAction="unwindToFeedList:" id="DQ3-Ti-ZQ1"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Feed URL" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eui-lF-scx">
+                                <rect key="frame" x="20" y="113" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Add Feed" id="9y2-oD-YMx">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="j6Z-gf-7cQ">
+                            <connections>
+                                <segue destination="1vJ-4a-cnR" kind="unwind" unwindAction="unwindToFeedList:" id="eAP-IR-A6W"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="buttonAdd" destination="dcu-51-k5W" id="Xed-qX-mFD"/>
+                        <outlet property="buttonCancel" destination="j6Z-gf-7cQ" id="BEG-cg-BwV"/>
+                        <outlet property="textField" destination="eui-lF-scx" id="Yrl-CS-xdO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WhI-6k-KVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="1vJ-4a-cnR" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1606" y="754"/>
+        </scene>
+        <!--Content View Controller-->
+        <scene sceneID="dyB-XY-dER">
+            <objects>
+                <tableViewController id="fzK-Xr-ean" customClass="RSSContentViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="UNP-49-zc1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Item Cell" textLabel="M7p-uo-Dm7" detailTextLabel="Xjf-t5-dvI" style="IBUITableViewCellStyleSubtitle" id="q6f-sD-xQ8">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q6f-sD-xQ8" id="eh4-bN-wbs">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="M7p-uo-Dm7">
+                                            <rect key="frame" x="15" y="3" width="34" height="22"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xjf-t5-dvI">
+                                            <rect key="frame" x="15" y="25" width="43" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="AqO-v3-apA" kind="push" id="Eln-Nk-Pc1"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fzK-Xr-ean" id="dWp-rm-Muv"/>
+                            <outlet property="delegate" destination="fzK-Xr-ean" id="65J-1d-dib"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Ph5-jF-0zs"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hnF-sK-q7H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1634" y="79"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="Z5R-b2-YcR">
+            <objects>
+                <viewController id="AqO-v3-apA" customClass="RSSWebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="amZ-uG-4RB"/>
+                        <viewControllerLayoutGuide type="bottom" id="fjC-Zi-ISh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="KZn-Qy-3GZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mlz-Cx-oYM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="mlz-Cx-oYM" secondAttribute="bottom" id="4el-EJ-eiV"/>
+                            <constraint firstAttribute="trailing" secondItem="mlz-Cx-oYM" secondAttribute="trailing" id="5dK-Sg-Stp"/>
+                            <constraint firstItem="mlz-Cx-oYM" firstAttribute="top" secondItem="KZn-Qy-3GZ" secondAttribute="top" id="H72-qK-vPo"/>
+                            <constraint firstItem="mlz-Cx-oYM" firstAttribute="leading" secondItem="KZn-Qy-3GZ" secondAttribute="leading" id="kmk-yR-LEl"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="hzs-eh-apG"/>
+                    <connections>
+                        <outlet property="webView" destination="mlz-Cx-oYM" id="Afm-Ud-dKm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bvm-c9-wIu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2004" y="79"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="c8F-Ph-gki">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="USM-PD-s3T" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="U0d-3O-FvH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="JKr-mW-vMk" kind="relationship" relationship="rootViewController" id="MbX-Hb-b3r"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tHo-bG-ZaO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="808" y="79"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qTg-7b-fsB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7hU-Du-OFo" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uHA-86-XTY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Rhu-rJ-qe8" kind="relationship" relationship="rootViewController" id="KXk-fl-t58"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MTd-rS-cZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1191" y="754"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
