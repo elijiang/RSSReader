@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RSSWebViewController : UIViewController
-@property (nonatomic, strong) NSURL *url;
+@interface RSSStoryWebViewController : UIViewController
+@property (nonatomic, strong) NSURL *storyURL;
 @end

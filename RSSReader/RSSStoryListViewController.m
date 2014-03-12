@@ -8,7 +8,7 @@
 
 #import "RSSStoryListViewController.h"
 #import "RSSParseOperation.h"
-#import "RSSWebViewController.h"
+#import "RSSStoryWebViewController.h"
 
 @interface RSSStoryListViewController ()
 @end
@@ -72,12 +72,12 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.destinationViewController isKindOfClass:[RSSWebViewController class]]) {
-        RSSWebViewController * webViewController = (RSSWebViewController *)segue.destinationViewController;
+    if ([segue.destinationViewController isKindOfClass:[RSSStoryWebViewController class]]) {
+        RSSStoryWebViewController * storyWebViewController = (RSSStoryWebViewController *)segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         RSSFeedItem *selectItem = self.items[indexPath.row];
-        webViewController.title = selectItem.itemTitle;
-        webViewController.url = [NSURL URLWithString:selectItem.itemLink];
+        storyWebViewController.title = selectItem.itemTitle;
+        storyWebViewController.storyURL = [NSURL URLWithString:selectItem.itemLink];
     }
 }
 

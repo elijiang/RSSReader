@@ -6,22 +6,22 @@
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
-#import "RSSWebViewController.h"
+#import "RSSStoryWebViewController.h"
 
-@interface RSSWebViewController ()
+@interface RSSStoryWebViewController ()
 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @end
 
-@implementation RSSWebViewController
+@implementation RSSStoryWebViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    NSLog(@"link:%@", self.url);
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.url];
+    NSLog(@"link:%@", self.storyURL);
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.storyURL];
     [self.webView loadRequest:request];
 }
 

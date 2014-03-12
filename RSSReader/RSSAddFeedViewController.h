@@ -10,6 +10,5 @@
 #import "RSSFeed.h"
 
 @interface RSSAddFeedViewController : UIViewController
-//@property (nonatomic, strong) NSURL *feedURL;
 @property (nonatomic, strong) RSSFeed *feed;
 @end

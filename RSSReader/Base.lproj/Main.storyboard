@@ -14,7 +14,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="RSS List Cell" textLabel="9eU-gW-y52" detailTextLabel="gk7-k6-JkB" style="IBUITableViewCellStyleSubtitle" id="Vzz-Aj-QaM">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vzz-Aj-QaM" id="IEz-4J-84x">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -125,7 +125,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Item Cell" textLabel="M7p-uo-Dm7" detailTextLabel="Xjf-t5-dvI" style="IBUITableViewCellStyleSubtitle" id="q6f-sD-xQ8">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="q6f-sD-xQ8" id="eh4-bN-wbs">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
@@ -163,10 +163,10 @@
             </objects>
             <point key="canvasLocation" x="1634" y="79"/>
         </scene>
-        <!--Web View Controller-->
+        <!--Story Web View Controller-->
         <scene sceneID="Z5R-b2-YcR">
             <objects>
-                <viewController id="AqO-v3-apA" customClass="RSSWebViewController" sceneMemberID="viewController">
+                <viewController id="AqO-v3-apA" customClass="RSSStoryWebViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="amZ-uG-4RB"/>
                         <viewControllerLayoutGuide type="bottom" id="fjC-Zi-ISh"/>
