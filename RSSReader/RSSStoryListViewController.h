@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RSSContentViewController : UITableViewController
-@property (nonatomic, strong) NSURL *url;
+@interface RSSStoryListViewController : UITableViewController
+@property (nonatomic, strong) NSArray *items;   // array of feed stories
 @end

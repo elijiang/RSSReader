@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface RSSItem : NSObject
+@interface RSSFeedItem : NSObject
 @property (nonatomic, copy) NSString *itemTitle;
 @property (nonatomic, copy) NSString *itemLink;
 @property (nonatomic, copy) NSString *itemDescription;

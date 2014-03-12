@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RSSURLViewController : UITableViewController
+@interface RSSFeedListViewController : UITableViewController
 
 @end

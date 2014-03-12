@@ -6,36 +6,28 @@
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
-#import "RSSURLViewController.h"
-#import "RSSContentViewController.h"
+#import "RSSFeedListViewController.h"
+#import "RSSStoryListViewController.h"
 #import "RSSAddFeedViewController.h"
+#import "RSSFeed.h"
 
-@interface RSSURLViewController ()
-@property (nonatomic, strong) NSMutableArray *rssList;
+@interface RSSFeedListViewController ()
+@property (nonatomic, strong) NSMutableArray *feeds;    // array of feed
 @end
 
-@implementation RSSURLViewController
+@implementation RSSFeedListViewController
 
-- (NSMutableArray *)rssList
+- (NSMutableArray *)feeds
 {
-    if (!_rssList) _rssList = [[NSMutableArray alloc] init];
-    return _rssList;
-}
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+    if (!_feeds) _feeds = [[NSMutableArray alloc] init];
+    return _feeds;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    [self.rssList addObject:[NSURL URLWithString:@"http://coolshell.cn/feed"]];
+//    [self.rssList addObject:[NSURL URLWithString:@"http://coolshell.cn/feed"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,7 +47,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.rssList.count;
+    return self.feeds.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,7 +56,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = [self.rssList[indexPath.row] absoluteString];
+    RSSFeed *feed = self.feeds[indexPath.row];
+    cell.textLabel.text = feed.feedTitle;
+    cell.detailTextLabel.text = feed.feedDescription;
     
     return cell;
 }
@@ -75,10 +69,12 @@
 // In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.destinationViewController isKindOfClass:[RSSContentViewController class]]) {
-        RSSContentViewController *contentViewController = (RSSContentViewController *)segue.destinationViewController;
+    if ([segue.destinationViewController isKindOfClass:[RSSStoryListViewController class]]) {
+        RSSStoryListViewController *storyListViewController = (RSSStoryListViewController *)segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        contentViewController.url = self.rssList[indexPath.row];
+        RSSFeed *feed = self.feeds[indexPath.row];
+        storyListViewController.title = feed.feedTitle;
+        storyListViewController.items = [feed.feedItems copy];
     }
 }
 
@@ -86,11 +82,10 @@
 
 - (IBAction)unwindToFeedList:(UIStoryboardSegue *)segue
 {
-    NSLog(@"source:%@, dest:%@", segue.sourceViewController, segue.destinationViewController);
     if ([segue.sourceViewController isKindOfClass:[RSSAddFeedViewController class]]) {
         RSSAddFeedViewController *addFeedVC = (RSSAddFeedViewController *)segue.sourceViewController;
-        if (addFeedVC.feedURL) {
-            [self.rssList addObject:addFeedVC.feedURL];
+        if (addFeedVC.feed) {
+            [self.feeds addObject:addFeedVC.feed];
             [self.tableView reloadData];
         }
     }

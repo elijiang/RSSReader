@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RSSItem.h"
+#import "RSSFeedItem.h"
 
 @protocol RSSParseOperationDelegate;
 
@@ -16,7 +16,8 @@
 @property (nonatomic, weak) id <RSSParseOperationDelegate> delegate;
 
 - (instancetype)initWithURL:(NSURL *)url;
-- (NSMutableArray *)parse;
+- (BOOL)parse;
+- (NSError *)parserError;
 
 @end
 
@@ -24,5 +25,6 @@
 
 @optional
 - (void)channelTitle:(NSString *)title;
-
+- (void)channelDescription:(NSString *)description;
+- (void)parsedItems:(NSMutableArray *)items;
 @end

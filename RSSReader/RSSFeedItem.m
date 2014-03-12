@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
-#import "RSSItem.h"
+#import "RSSFeedItem.h"
 
-@implementation RSSItem
+@implementation RSSFeedItem
 
 - (NSString *)description
 {

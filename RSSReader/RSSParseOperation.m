@@ -12,10 +12,12 @@
 @interface RSSParseOperation () <NSXMLParserDelegate>
 @property (nonatomic, strong) NSXMLParser *parser;
 @property (nonatomic, strong) NSMutableArray *parsedItems;
-@property (nonatomic, strong) RSSItem *currentItem;
+@property (nonatomic, strong) RSSFeedItem *currentItem;
 @property (nonatomic, strong) NSMutableString *currentParsedCharacterData;
 @property (nonatomic) BOOL accumulatingParsedCharacterData;
 @property (nonatomic, strong) NSString *channelTitle;
+@property (nonatomic, strong) NSString *channelDescription;
+@property (nonatomic) BOOL beforeItem;
 @end
 
 @implementation RSSParseOperation
@@ -26,6 +28,7 @@
     if (self) {
         self.parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
         self.parser.delegate = self;
+        self.beforeItem = YES;
     }
     
     return self;
@@ -43,16 +46,27 @@
     return _parsedItems;
 }
 
-- (NSMutableArray *)parse
+//- (NSMutableArray *)parse
+//{
+//    if ([self.parser parse]) {
+//        return self.parsedItems;
+//    }
+//    return nil;
+//}
+
+- (BOOL)parse
 {
-    if ([self.parser parse]) {
-        return self.parsedItems;
-    }
-    return nil;
+    return [self.parser parse];
+}
+
+- (NSError *)parserError
+{
+    return [self.parser parserError];
 }
 
 #pragma mark - Parser contants
 
+static NSString * const kChannelElementName = @"channel";
 static NSString * const kItemElementName = @"item";
 static NSString * const kTitleElementName = @"title";
 static NSString * const kLinkElementName = @"link";
@@ -63,7 +77,10 @@ static NSString * const kDescriptionElementName = @"description";
 {
 //    NSLog(@"start, element name:%@, uri:%@, qname:%@, attributes:%@", elementName, namespaceURI, qName, attributeDict);
     if ([elementName isEqualToString:kItemElementName]) {
-        self.currentItem = [[RSSItem alloc] init];
+        if (self.beforeItem) {
+            self.beforeItem = NO;
+        }
+        self.currentItem = [[RSSFeedItem alloc] init];
     } else if ([elementName isEqualToString:kTitleElementName] || [elementName isEqualToString:kLinkElementName] || [elementName isEqualToString:kDescriptionElementName]) {
         self.accumulatingParsedCharacterData = YES;
         [self.currentParsedCharacterData setString:@""];
@@ -79,10 +96,9 @@ static NSString * const kDescriptionElementName = @"description";
             self.currentItem = nil;
         }
     } else if ([elementName isEqualToString:kTitleElementName]) {
-        if (!self.channelTitle) {
-            self.channelTitle = self.currentParsedCharacterData;
+        if (self.beforeItem) {
             if ([self.delegate respondsToSelector:@selector(channelTitle:)]) {
-                [self.delegate channelTitle:self.channelTitle];
+                [self.delegate channelTitle:self.currentParsedCharacterData];
             }
         } else {
             self.currentItem.itemTitle = self.currentParsedCharacterData;
@@ -90,7 +106,17 @@ static NSString * const kDescriptionElementName = @"description";
     } else if ([elementName isEqualToString:kLinkElementName]) {
         self.currentItem.itemLink = self.currentParsedCharacterData;
     } else if ([elementName isEqualToString:kDescriptionElementName]) {
-        self.currentItem.itemDescription = self.currentParsedCharacterData;
+        if (self.beforeItem) {
+            if ([self.delegate respondsToSelector:@selector(channelDescription:)]) {
+                [self.delegate channelDescription:self.currentParsedCharacterData];
+            }
+        } else {
+            self.currentItem.itemDescription = self.currentParsedCharacterData;
+        }
+    } else if ([elementName isEqualToString:kChannelElementName]) {
+        if ([self.delegate respondsToSelector:@selector(parsedItems:)]) {
+            [self.delegate parsedItems:self.parsedItems];
+        }
     }
     self.accumulatingParsedCharacterData = NO;
 }
