@@ -15,8 +15,6 @@
 @property (nonatomic, strong) RSSFeedItem *currentItem;
 @property (nonatomic, strong) NSMutableString *currentParsedCharacterData;
 @property (nonatomic) BOOL accumulatingParsedCharacterData;
-@property (nonatomic, strong) NSString *channelTitle;
-@property (nonatomic, strong) NSString *channelDescription;
 @property (nonatomic) BOOL beforeItem;
 @end
 
@@ -46,14 +44,6 @@
     return _parsedItems;
 }
 
-//- (NSMutableArray *)parse
-//{
-//    if ([self.parser parse]) {
-//        return self.parsedItems;
-//    }
-//    return nil;
-//}
-
 - (BOOL)parse
 {
     return [self.parser parse];
@@ -75,7 +65,7 @@ static NSString * const kDescriptionElementName = @"description";
 #pragma mark - NSXMLParser delegate
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
-//    NSLog(@"start, element name:%@, uri:%@, qname:%@, attributes:%@", elementName, namespaceURI, qName, attributeDict);
+//    NSLog(@"start, element name:swww%@, uri:%@, qname:%@, attributes:%@", elementName, namespaceURI, qName, attributeDict);
     if ([elementName isEqualToString:kItemElementName]) {
         if (self.beforeItem) {
             self.beforeItem = NO;

@@ -8,11 +8,15 @@
 
 #import "RSSAddFeedViewController.h"
 #import "RSSParseOperation.h"
+#import "Feed+Create.h"
 
 @interface RSSAddFeedViewController () <RSSParseOperationDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIButton *buttonAdd;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonCancel;
+@property (nonatomic, copy) NSString *feedTitle;
+@property (nonatomic, copy) NSString *feedDescription;
+@property (nonatomic, strong) NSMutableArray *feedItems;        // array of stories
 @end
 
 @implementation RSSAddFeedViewController
@@ -58,17 +62,17 @@
 
 - (void)channelTitle:(NSString *)title
 {
-    self.feed.feedTitle = title;
+    self.feedTitle = title;
 }
 
 - (void)channelDescription:(NSString *)description
 {
-    self.feed.feedDescription = description;
+    self.feedDescription = description;
 }
 
 - (void)parsedItems:(NSMutableArray *)items
 {
-    self.feed.feedItems = items;
+    self.feedItems = items;
 }
 
 #pragma mark - Helper functions
@@ -85,14 +89,12 @@
                     if ([request.URL isEqual:feedURL]) {
                         RSSParseOperation *parseOperation = [[RSSParseOperation alloc] initWithURL:location];
                         parseOperation.delegate = self;
-                        self.feed = [[RSSFeed alloc] init];
                         if ([parseOperation parse]) {
-                            self.feed.feedURL = feedURL;
+                            [Feed feedWithURL:feedURL title:self.feedTitle desc:self.feedDescription items:self.feedItems inManagedObjectContext:self.managedObjectContext];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.buttonAdd];
                             });
                         } else {
-                            self.feed = nil;
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Parse feed error"
                                                                                     message:[parseOperation parserError].localizedDescription

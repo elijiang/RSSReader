@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface RSSFeedListViewController : UITableViewController
-
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @end

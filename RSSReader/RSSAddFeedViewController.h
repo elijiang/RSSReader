@@ -10,5 +10,5 @@
 #import "RSSFeed.h"
 
 @interface RSSAddFeedViewController : UIViewController
-@property (nonatomic, strong) RSSFeed *feed;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @end
