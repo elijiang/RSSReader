@@ -9,20 +9,12 @@
 #import "RSSStoryListViewController.h"
 #import "RSSParseOperation.h"
 #import "RSSStoryWebViewController.h"
+#import "Story.h"
 
 @interface RSSStoryListViewController ()
 @end
 
 @implementation RSSStoryListViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -35,25 +27,20 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)didReceiveMemoryWarning
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    _managedObjectContext = managedObjectContext;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Story"];
+    request.predicate = [NSPredicate predicateWithFormat:@"belongTo = %@", self.feed];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES]];
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                        managedObjectContext:managedObjectContext
+                                                                          sectionNameKeyPath:nil
+                                                                                   cacheName:nil];
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return self.items.count;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -61,9 +48,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    RSSFeedItem *item = self.items[indexPath.row];
-    cell.textLabel.text = item.itemTitle;
-    cell.detailTextLabel.text = item.itemDescription;
+    Story *story = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = story.title;
+    cell.detailTextLabel.text = story.desc;
     
     return cell;
 }
@@ -75,9 +62,9 @@
     if ([segue.destinationViewController isKindOfClass:[RSSStoryWebViewController class]]) {
         RSSStoryWebViewController * storyWebViewController = (RSSStoryWebViewController *)segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        RSSFeedItem *selectItem = self.items[indexPath.row];
-        storyWebViewController.title = selectItem.itemTitle;
-        storyWebViewController.storyURL = [NSURL URLWithString:selectItem.itemLink];
+        Story *story = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        storyWebViewController.title = story.title;
+        storyWebViewController.storyURL = [NSURL URLWithString:story.link];
     }
 }
 

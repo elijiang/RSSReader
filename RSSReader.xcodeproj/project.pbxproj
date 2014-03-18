@@ -13,6 +13,7 @@
 		1F95C1CD18D5E6B9005279D4 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F95C1CC18D5E6B9005279D4 /* Story.m */; };
 		1F95C1D018D5E89A005279D4 /* Feed+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F95C1CF18D5E89A005279D4 /* Feed+Create.m */; };
 		1F95C1D318D5F0DA005279D4 /* Story+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F95C1D218D5F0DA005279D4 /* Story+Create.m */; };
+		1F95C1D618D887FC005279D4 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F95C1D518D887FC005279D4 /* CoreDataTableViewController.m */; };
 		1FD2106218CAAE80006B7B4C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD2106118CAAE80006B7B4C /* Foundation.framework */; };
 		1FD2106418CAAE80006B7B4C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD2106318CAAE80006B7B4C /* CoreGraphics.framework */; };
 		1FD2106618CAAE80006B7B4C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD2106518CAAE80006B7B4C /* UIKit.framework */; };
@@ -56,6 +57,8 @@
 		1F95C1CF18D5E89A005279D4 /* Feed+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Feed+Create.m"; sourceTree = "<group>"; };
 		1F95C1D118D5F0DA005279D4 /* Story+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Story+Create.h"; sourceTree = "<group>"; };
 		1F95C1D218D5F0DA005279D4 /* Story+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Story+Create.m"; sourceTree = "<group>"; };
+		1F95C1D418D887FC005279D4 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		1F95C1D518D887FC005279D4 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
 		1FD2105E18CAAE80006B7B4C /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FD2106118CAAE80006B7B4C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1FD2106318CAAE80006B7B4C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -209,6 +212,8 @@
 		1FD210A818CB1258006B7B4C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				1F95C1D418D887FC005279D4 /* CoreDataTableViewController.h */,
+				1F95C1D518D887FC005279D4 /* CoreDataTableViewController.m */,
 				1FD210A518CAEE1F006B7B4C /* RSSAddFeedViewController.h */,
 				1FD210A618CAEE1F006B7B4C /* RSSAddFeedViewController.m */,
 				1FD2109918CAB15A006B7B4C /* RSSStoryListViewController.h */,
@@ -333,6 +338,7 @@
 				1F95C1CA18D5E6B9005279D4 /* Feed.m in Sources */,
 				1FD2109E18CAC723006B7B4C /* RSSFeedItem.m in Sources */,
 				1F67919E18D03EF700A65A6C /* RSSFeed.m in Sources */,
+				1F95C1D618D887FC005279D4 /* CoreDataTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

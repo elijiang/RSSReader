@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Feed.h"
+#import "CoreDataTableViewController.h"
 
-@interface RSSStoryListViewController : UITableViewController
-@property (nonatomic, strong) NSArray *items;   // array of feed stories
+@interface RSSStoryListViewController : CoreDataTableViewController
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) Feed *feed;
 @end
