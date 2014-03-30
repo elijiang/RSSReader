@@ -46,7 +46,7 @@
     
     // Configure the cell...
     Feed *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = feed.title;
+    cell.textLabel.text = feed.title ? feed.title : feed.url;
     cell.detailTextLabel.text = feed.desc;
 //    CGPoint original = cell.textLabel.frame.origin;
 //    CGSize size = cell.textLabel.frame.size;

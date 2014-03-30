@@ -87,7 +87,12 @@
                 parser.delegate = self;
                 if ([parser parse]) {
                     for (RSSFeedItem *item in self.items) {
-                        [Story storyWithTitle:item.itemTitle link:item.itemLink desc:item.itemDescription inManagedContext:self.managedObjectContext];
+                        [self.managedObjectContext performBlock:^{
+                            [Story storyWithTitle:item.itemTitle
+                                             link:item.itemLink
+                                             desc:item.itemDescription
+                                 inManagedContext:self.managedObjectContext];
+                        }];
                     }
                 } else {
                     dispatch_async(dispatch_get_main_queue(), ^{
