@@ -22,6 +22,7 @@
     [super viewDidLoad];
 
 //    [self.rssList addObject:[NSURL URLWithString:@"http://coolshell.cn/feed"]];
+    self.tableView.rowHeight = 66.0f;
 }
 
 - (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
@@ -47,6 +48,14 @@
     Feed *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = feed.title;
     cell.detailTextLabel.text = feed.desc;
+//    CGPoint original = cell.textLabel.frame.origin;
+//    CGSize size = cell.textLabel.frame.size;
+//    NSLog(@"text label x:%f, y:%f, width:%f, height:%f, font:%@",
+//          original.x, original.y, size.width, size.height, cell.textLabel.font);
+//    original = cell.detailTextLabel.frame.origin;
+//    size = cell.detailTextLabel.frame.size;
+//    NSLog(@"detail text label x:%f, y:%f, width:%f, height:%f. font:%@",
+//          original.x, original.y, size.width, size.height, cell.detailTextLabel.font);
     
     return cell;
 }
