@@ -37,7 +37,7 @@
                                     inManagedContext:context];
                 [feed addStoriesObject:story];
             }
-            NSLog(@"Add feed, url:%@, title:%@, item count:%d", feed.url, feed.title, feed.stories.count);
+            NSLog(@"Add feed, url:%@, title:%@, item count:%lu", feed.url, feed.title, (unsigned long)feed.stories.count);
         }
         
     }
