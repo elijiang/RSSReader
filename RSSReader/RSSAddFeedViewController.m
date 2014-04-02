@@ -10,10 +10,11 @@
 #import "RSSParseOperation.h"
 #import "Feed+Create.h"
 
-@interface RSSAddFeedViewController () <RSSParseOperationDelegate>
+@interface RSSAddFeedViewController () <RSSParseOperationDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet UIButton *buttonAdd;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonCancel;
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 @property (nonatomic, copy) NSString *feedTitle;
 @property (nonatomic, copy) NSString *feedDescription;
 @property (nonatomic, strong) NSMutableArray *feedItems;        // array of stories
@@ -40,6 +41,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+//    self.addButton.enabled = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,11 +82,17 @@
 - (void)startDownloadFeed:(NSURL *)feedURL
 {
     if (feedURL) {
+        self.addButton.enabled = NO;
+        [self.spinner startAnimating];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         NSURLRequest *request = [NSURLRequest requestWithURL:feedURL];
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
         NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
             completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                self.addButton.enabled = YES;
+                [self.spinner stopAnimating];
                 if (!error) {
                     if ([request.URL isEqual:feedURL]) {
                         RSSParseOperation *parseOperation = [[RSSParseOperation alloc] initWithURL:location];
@@ -92,7 +100,7 @@
                         if ([parseOperation parse]) {
                             [Feed feedWithURL:feedURL title:self.feedTitle desc:self.feedDescription items:self.feedItems inManagedObjectContext:self.managedObjectContext];
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.buttonAdd];
+                                [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];
                             });
                         } else {
                             dispatch_async(dispatch_get_main_queue(), ^{
