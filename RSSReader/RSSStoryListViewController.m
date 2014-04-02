@@ -96,8 +96,8 @@
                     }
                 } else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Parse error"
-                                                            message:error.localizedDescription
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Parse feed error"
+                                                            message:[parser parserError].localizedDescription
                                                            delegate:nil
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:nil, nil];

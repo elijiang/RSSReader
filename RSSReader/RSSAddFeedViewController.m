@@ -22,12 +22,6 @@
 
 @implementation RSSAddFeedViewController
 
-//- (RSSFeed *)feed
-//{
-//    if (!_feed) _feed = [[RSSFeed alloc] init];
-//    return _feed;
-//}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -41,7 +35,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-//    self.addButton.enabled = NO;
+    self.addButton.enabled = NO;
+    self.textField.delegate = self;
+    [self.textField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
@@ -77,6 +73,22 @@
     self.feedItems = items;
 }
 
+#pragma mark - UITextField delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.textField resignFirstResponder];
+    [self addFeed:nil];
+    return YES;
+}
+
+#pragma mark - Actions
+
+- (IBAction)textFieldEditingChanged:(UITextField *)sender
+{
+    self.addButton.enabled = (sender.text.length > 0);
+}
+
 #pragma mark - Helper functions
 
 - (void)startDownloadFeed:(NSURL *)feedURL
@@ -90,14 +102,13 @@
         NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
         NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
             completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-                self.addButton.enabled = YES;
-                [self.spinner stopAnimating];
                 if (!error) {
+                    NSLog(@"Download feed %@ to location:%@", feedURL, location);
                     if ([request.URL isEqual:feedURL]) {
                         RSSParseOperation *parseOperation = [[RSSParseOperation alloc] initWithURL:location];
                         parseOperation.delegate = self;
                         if ([parseOperation parse]) {
+                            NSLog(@"Parse feed %@ success", feedURL);
                             [self.managedObjectContext performBlock:^{
                                 [Feed feedWithURL:feedURL title:self.feedTitle desc:self.feedDescription items:self.feedItems inManagedObjectContext:self.managedObjectContext];
                             }];
@@ -105,31 +116,39 @@
                                 [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];
                             });
                         } else {
+                            NSLog(@"Parse feed %@ error, %@", feedURL, [parseOperation parserError].localizedDescription);
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Parse feed error"
-                                                                                    message:[parseOperation parserError].localizedDescription
-                                                                                   delegate:nil
-                                                                          cancelButtonTitle:@"Cancel"
-                                                                          otherButtonTitles:nil, nil];
-                                [alertView show];
+                                [self showAlertViewWithTitle:@"Parse feed error" message:[parseOperation parserError].localizedDescription];
                             });
                         }
                     }
                 } else {
+                    NSLog(@"Download feed %@ error:%@", feedURL, error.localizedDescription);
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Fetch feed error"
-                                                                            message:error.localizedDescription
-                                                                           delegate:nil
-                                                                  cancelButtonTitle:@"Cancel"
-                                                                  otherButtonTitles:nil, nil];
-                        [alertView show];
+                        [self showAlertViewWithTitle:@"Fetch feed error" message:error.localizedDescription];
                     });
                 }
+                dispatch_async(dispatch_get_main_queue(), ^{ [self finishDownload]; });
             }];
         [task resume];
     }
 }
 
+- (void)finishDownload
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    self.addButton.enabled = YES;
+    [self.spinner stopAnimating];
+}
 
+- (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 @end
