@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="USM-PD-s3T">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="USM-PD-s3T">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -217,10 +217,10 @@
             </objects>
             <point key="canvasLocation" x="2004" y="79"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation With Progress View Controller-->
         <scene sceneID="c8F-Ph-gki">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="USM-PD-s3T" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="USM-PD-s3T" customClass="UINavigationWithProgressViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="U0d-3O-FvH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
