@@ -43,6 +43,7 @@
 {
     [super viewWillDisappear:animated];
     [self progressView].hidden = YES;
+    [self progressView].progress = 0;
 }
 
 - (void)didReceiveMemoryWarning
@@ -88,7 +89,7 @@
         [self performSelector:@selector(fadeProgressView) withObject:nil afterDelay:1.0f];
         [self.progressTimer invalidate];
     } else if ([self progressView].progress < 0.9f) {
-        [[self progressView] setProgress:[self progressView].progress + 0.001f animated:YES];
+        [[self progressView] setProgress:[self progressView].progress + 0.005f animated:YES];
     }
 }
 
