@@ -142,21 +142,32 @@
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="65"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6Z-7S-aLH">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T6Z-7S-aLH">
                                             <rect key="frame" x="15" y="5" width="272" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Summary" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHb-AE-mm6">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rHb-AE-mm6">
                                             <rect key="frame" x="15" y="29" width="272" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="inP-ia-fXZ"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rHb-AE-mm6" firstAttribute="trailing" secondItem="T6Z-7S-aLH" secondAttribute="trailing" id="5NR-md-sdE"/>
+                                        <constraint firstAttribute="trailing" secondItem="T6Z-7S-aLH" secondAttribute="trailing" id="FdR-Iw-WMF"/>
+                                        <constraint firstItem="rHb-AE-mm6" firstAttribute="top" secondItem="T6Z-7S-aLH" secondAttribute="bottom" constant="2" id="Geb-Tz-o1L"/>
+                                        <constraint firstItem="T6Z-7S-aLH" firstAttribute="top" secondItem="eh4-bN-wbs" secondAttribute="top" constant="5" id="S74-fH-Jl9"/>
+                                        <constraint firstItem="rHb-AE-mm6" firstAttribute="leading" secondItem="T6Z-7S-aLH" secondAttribute="leading" id="gcU-oh-fRj"/>
+                                        <constraint firstItem="T6Z-7S-aLH" firstAttribute="leading" secondItem="eh4-bN-wbs" secondAttribute="leading" constant="15" id="z9u-gB-ktZ"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="summaryLabel" destination="rHb-AE-mm6" id="ihe-zU-qBY"/>
