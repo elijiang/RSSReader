@@ -30,10 +30,15 @@
             feed.url = url.absoluteString;
             feed.title = title;
             feed.desc = desc;
+            NSDate *now = [NSDate date];
+            NSInteger sequence = 0;
             for (RSSFeedItem *item in items) {
+                ++sequence;
                 Story *story = [Story storyWithTitle:item.itemTitle
                                                 link:item.itemLink
                                                 desc:item.itemDescription
+                                          createDate:now
+                                     sequenceInBatch:sequence
                                     inManagedContext:context];
                 [feed addStoriesObject:story];
             }

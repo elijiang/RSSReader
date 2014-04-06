@@ -110,7 +110,10 @@
                         if ([parseOperation parse]) {
                             NSLog(@"Parse feed %@ success", feedURL);
                             [self.managedObjectContext performBlock:^{
-                                [Feed feedWithURL:feedURL title:self.feedTitle desc:self.feedDescription items:self.feedItems inManagedObjectContext:self.managedObjectContext];
+                                [Feed feedWithURL:feedURL
+                                            title:self.feedTitle
+                                             desc:self.feedDescription
+                                            items:self.feedItems inManagedObjectContext:self.managedObjectContext];
                             }];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];

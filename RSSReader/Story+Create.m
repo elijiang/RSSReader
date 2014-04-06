@@ -10,12 +10,17 @@
 
 @implementation Story (Create)
 
-+ (Story *)storyWithTitle:(NSString *)title link:(NSString *)link desc:(NSString *)desc inManagedContext:(NSManagedObjectContext *)context
++ (Story *)storyWithTitle:(NSString *)title
+                     link:(NSString *)link
+                     desc:(NSString *)desc
+               createDate:(NSDate *)date
+          sequenceInBatch:(NSInteger)sequence
+         inManagedContext:(NSManagedObjectContext *)context
 {
     Story *story = nil;
     if (title.length) {
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Story"];
-        request.predicate = [NSPredicate predicateWithFormat:@"title = %@", title];
+        request.predicate = [NSPredicate predicateWithFormat:@"link = %@", link];
         
         NSError *error;
         NSArray *matches = [context executeFetchRequest:request error:&error];
@@ -28,7 +33,9 @@
             story.title = title;
             story.link = link;
             story.desc = desc;
-            NSLog(@"Add story, title:%@", story.title);
+            story.createDate = date;
+            story.sequenceInBatch = @(sequence);
+            NSLog(@"Add story, title:%@, link:%@", story.title, story.link);
         }
     }
     

@@ -36,7 +36,8 @@
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Story"];
     request.predicate = [NSPredicate predicateWithFormat:@"belongTo = %@", self.feed];
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"title" ascending:YES]];
+    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createDate" ascending:NO],
+                                [NSSortDescriptor sortDescriptorWithKey:@"sequenceInBatch" ascending:YES]];
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:managedObjectContext
                                                                           sectionNameKeyPath:nil
@@ -86,12 +87,17 @@
                 RSSParseOperation *parser = [[RSSParseOperation alloc] initWithURL:location];
                 parser.delegate = self;
                 if ([parser parse]) {
+                    NSDate *now = [NSDate date];
+                    NSInteger sequence = 0;
                     for (RSSFeedItem *item in self.items) {
+                        ++sequence;
                         [self.managedObjectContext performBlock:^{
                             Story *story = [Story storyWithTitle:item.itemTitle
-                                             link:item.itemLink
-                                             desc:item.itemDescription
-                                 inManagedContext:self.managedObjectContext];
+                                                            link:item.itemLink
+                                                            desc:item.itemDescription
+                                                      createDate:now
+                                                 sequenceInBatch:sequence
+                                                inManagedContext:self.managedObjectContext];
                             if (story) {
                                 story.belongTo = self.feed;
                             }
