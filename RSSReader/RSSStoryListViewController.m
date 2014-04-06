@@ -88,10 +88,13 @@
                 if ([parser parse]) {
                     for (RSSFeedItem *item in self.items) {
                         [self.managedObjectContext performBlock:^{
-                            [Story storyWithTitle:item.itemTitle
+                            Story *story = [Story storyWithTitle:item.itemTitle
                                              link:item.itemLink
                                              desc:item.itemDescription
                                  inManagedContext:self.managedObjectContext];
+                            if (story) {
+                                story.belongTo = self.feed;
+                            }
                         }];
                     }
                 } else {
