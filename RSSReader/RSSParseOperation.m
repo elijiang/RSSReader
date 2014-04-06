@@ -7,7 +7,7 @@
 //
 
 #import "RSSParseOperation.h"
-
+#import <TFHpple.h>
 
 @interface RSSParseOperation () <NSXMLParserDelegate>
 @property (nonatomic, strong) NSXMLParser *parser;
@@ -102,6 +102,12 @@ static NSString * const kDescriptionElementName = @"description";
             }
         } else {
             self.currentItem.itemDescription = self.currentParsedCharacterData;
+            TFHpple *document = [[TFHpple alloc] initWithHTMLData:[self.currentParsedCharacterData dataUsingEncoding:NSUTF8StringEncoding]];
+            NSArray *elements = [document searchWithXPathQuery:@"//a"];
+            if (elements.count) {
+                TFHppleElement *element = [elements firstObject];
+                self.currentItem.itemDescription = [element text];
+            }
         }
     } else if ([elementName isEqualToString:kChannelElementName]) {
         if ([self.delegate respondsToSelector:@selector(parsedItems:)]) {
