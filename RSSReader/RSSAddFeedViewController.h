@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RSSFeed.h"
 
 @interface RSSAddFeedViewController : UIViewController
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
