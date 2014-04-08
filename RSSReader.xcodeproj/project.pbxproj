@@ -32,8 +32,9 @@
 		1FD210A118CAD83E006B7B4C /* RSSParseOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD210A018CAD83E006B7B4C /* RSSParseOperation.m */; };
 		1FD210A418CAE680006B7B4C /* RSSStoryWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD210A318CAE680006B7B4C /* RSSStoryWebViewController.m */; };
 		1FD210A718CAEE1F006B7B4C /* RSSAddFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FD210A618CAEE1F006B7B4C /* RSSAddFeedViewController.m */; };
-		9533D9BF18F0FE590085F5B9 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 9533D9BE18F0FE590085F5B9 /* Feed.m */; };
-		9533D9C218F0FE5A0085F5B9 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 9533D9C118F0FE5A0085F5B9 /* Story.m */; };
+		9586AE7718F43D4C00942D6A /* RSSImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */; };
+		9586AE8018F43EBA00942D6A /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586AE7F18F43EBA00942D6A /* Story.m */; };
+		9586AE8318F43EBA00942D6A /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586AE8218F43EBA00942D6A /* Feed.m */; };
 		95966E1118EFABEB00D66B1D /* UINavigationWithProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95966E1018EFABEB00D66B1D /* UINavigationWithProgressViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -88,10 +89,12 @@
 		1FD210A618CAEE1F006B7B4C /* RSSAddFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSAddFeedViewController.m; sourceTree = "<group>"; };
 		515676B71AC0466D9C2E862D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		77EDF277B28C486DA5ABEFA2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		9533D9BD18F0FE590085F5B9 /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
-		9533D9BE18F0FE590085F5B9 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
-		9533D9C018F0FE5A0085F5B9 /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
-		9533D9C118F0FE5A0085F5B9 /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
+		9586AE7518F43D4C00942D6A /* RSSImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSImageToDataTransformer.h; sourceTree = "<group>"; };
+		9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSImageToDataTransformer.m; sourceTree = "<group>"; };
+		9586AE7E18F43EBA00942D6A /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
+		9586AE7F18F43EBA00942D6A /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
+		9586AE8118F43EBA00942D6A /* Feed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
+		9586AE8218F43EBA00942D6A /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		95966E0F18EFABEB00D66B1D /* UINavigationWithProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigationWithProgressViewController.h; sourceTree = "<group>"; };
 		95966E1018EFABEB00D66B1D /* UINavigationWithProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINavigationWithProgressViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,10 +132,12 @@
 				1F95C1D118D5F0DA005279D4 /* Story+Create.h */,
 				1F95C1D218D5F0DA005279D4 /* Story+Create.m */,
 				1F95C1BE18D5E4D7005279D4 /* RSSReader.xcdatamodeld */,
-				9533D9BD18F0FE590085F5B9 /* Feed.h */,
-				9533D9BE18F0FE590085F5B9 /* Feed.m */,
-				9533D9C018F0FE5A0085F5B9 /* Story.h */,
-				9533D9C118F0FE5A0085F5B9 /* Story.m */,
+				9586AE7E18F43EBA00942D6A /* Story.h */,
+				9586AE7F18F43EBA00942D6A /* Story.m */,
+				9586AE8118F43EBA00942D6A /* Feed.h */,
+				9586AE8218F43EBA00942D6A /* Feed.m */,
+				9586AE7518F43D4C00942D6A /* RSSImageToDataTransformer.h */,
+				9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */,
 			);
 			name = "Core Data Model";
 			sourceTree = "<group>";
@@ -379,9 +384,10 @@
 				1FD2109B18CAB15A006B7B4C /* RSSStoryListViewController.m in Sources */,
 				1FD210A118CAD83E006B7B4C /* RSSParseOperation.m in Sources */,
 				1FD2107218CAAE80006B7B4C /* RSSAppDelegate.m in Sources */,
-				9533D9BF18F0FE590085F5B9 /* Feed.m in Sources */,
+				9586AE8318F43EBA00942D6A /* Feed.m in Sources */,
 				1FD2109818CAAF19006B7B4C /* RSSFeedListViewController.m in Sources */,
-				9533D9C218F0FE5A0085F5B9 /* Story.m in Sources */,
+				9586AE8018F43EBA00942D6A /* Story.m in Sources */,
+				9586AE7718F43D4C00942D6A /* RSSImageToDataTransformer.m in Sources */,
 				1F95C1D318D5F0DA005279D4 /* Story+Create.m in Sources */,
 				1F95C1D018D5E89A005279D4 /* Feed+Create.m in Sources */,
 				1FD210A718CAEE1F006B7B4C /* RSSAddFeedViewController.m in Sources */,

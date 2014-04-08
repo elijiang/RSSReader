@@ -2,7 +2,7 @@
 //  Feed.h
 //  RSSReader
 //
-//  Created by feriely on 14-4-6.
+//  Created by feriely on 14-4-8.
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * url;
+@property (nonatomic, retain) id icon;
 @property (nonatomic, retain) NSSet *stories;
 @end
 

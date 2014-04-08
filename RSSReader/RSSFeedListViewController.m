@@ -48,6 +48,10 @@
     Feed *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = feed.title ? feed.title : feed.url;
     cell.detailTextLabel.text = feed.desc;
+    if (feed.icon) {
+        cell.imageView.image = [self imageWithImage:feed.icon scaleToSize:CGSizeMake(44.0f, 44.0f)];
+        cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    }
 //    CGPoint original = cell.textLabel.frame.origin;
 //    CGSize size = cell.textLabel.frame.size;
 //    NSLog(@"text label x:%f, y:%f, width:%f, height:%f, font:%@",
@@ -95,6 +99,17 @@
 
 - (IBAction)unwindToFeedList:(UIStoryboardSegue *)segue
 {
+}
+
+#pragma mark - Help functions
+
+- (UIImage *)imageWithImage:(UIImage *)image scaleToSize:(CGSize)newSize
+{
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 @end

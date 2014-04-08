@@ -2,7 +2,7 @@
 //  Story.m
 //  RSSReader
 //
-//  Created by feriely on 14-4-6.
+//  Created by feriely on 14-4-8.
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
@@ -12,11 +12,11 @@
 
 @implementation Story
 
+@dynamic createDate;
 @dynamic desc;
 @dynamic link;
-@dynamic title;
-@dynamic createDate;
 @dynamic sequenceInBatch;
+@dynamic title;
 @dynamic belongTo;
 
 @end

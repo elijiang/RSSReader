@@ -110,10 +110,13 @@
                         if ([parseOperation parse]) {
                             NSLog(@"Parse feed %@ success", feedURL);
                             [self.managedObjectContext performBlock:^{
-                                [Feed feedWithURL:feedURL
-                                            title:self.feedTitle
-                                             desc:self.feedDescription
-                                            items:self.feedItems inManagedObjectContext:self.managedObjectContext];
+                                __block Feed *feed = [Feed feedWithURL:feedURL
+                                                         title:self.feedTitle
+                                                          desc:self.feedDescription
+                                                         items:self.feedItems inManagedObjectContext:self.managedObjectContext];
+                                [self downloadFavicon:[self faviconURL:feedURL] completionHandler:^(UIImage *image) {
+                                    feed.icon = image;
+                                }];
                             }];
                             dispatch_async(dispatch_get_main_queue(), ^{
                                 [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];
@@ -152,6 +155,35 @@
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil, nil];
     [alertView show];
+}
+
+- (NSURL *)faviconURL:(NSURL *)feedURL
+{
+//    NSLog(@"base url:%@", [feedURL baseURL]);
+//    return [feedURL baseURL];
+//    NSLog(@"scheme:%@", feedURL.scheme);
+//    NSLog(@"host:%@", feedURL.host);
+    return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/favicon.ico", feedURL.scheme, feedURL.host]];
+}
+
+- (void)downloadFavicon:(NSURL *)faviconURL completionHandler:(void(^)(UIImage *image))completionHandler
+{
+    if (faviconURL) {
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+        NSURLSessionDownloadTask *task = [session downloadTaskWithURL:faviconURL
+            completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                if (!error) {
+                    NSLog(@"Download favorite icon %@ to location:%@", faviconURL, location);
+                    UIImage *favicon = [UIImage imageWithData:[NSData dataWithContentsOfURL:location]];
+                    completionHandler(favicon);
+                } else {
+                    NSLog(@"Download favorite icon %@ error:%@", faviconURL, error.localizedDescription);
+                    completionHandler(nil);
+                }
+            }];
+        [task resume];
+    }
 }
 
 @end
