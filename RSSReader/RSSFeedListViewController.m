@@ -50,7 +50,7 @@
     cell.detailTextLabel.text = feed.desc;
     if (feed.icon) {
         cell.imageView.image = [self imageWithImage:feed.icon scaleToSize:CGSizeMake(44.0f, 44.0f)];
-        cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        cell.imageView.contentMode = UIViewContentModeScaleToFill;
     }
 //    CGPoint original = cell.textLabel.frame.origin;
 //    CGSize size = cell.textLabel.frame.size;
@@ -105,7 +105,7 @@
 
 - (UIImage *)imageWithImage:(UIImage *)image scaleToSize:(CGSize)newSize
 {
-    UIGraphicsBeginImageContext(newSize);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, [UIScreen mainScreen].scale);
     [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
