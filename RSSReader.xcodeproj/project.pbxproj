@@ -33,6 +33,8 @@
 		956E051318F8AA8C00253B40 /* RSSFeedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E051218F8AA8C00253B40 /* RSSFeedParser.m */; };
 		956E051618F8C6D700253B40 /* Feed.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E051518F8C6D700253B40 /* Feed.m */; };
 		956E051918F8C6D800253B40 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E051818F8C6D800253B40 /* Story.m */; };
+		956E051C18F8DF6500253B40 /* RSSFeedFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E051B18F8DF6500253B40 /* RSSFeedFetcher.m */; };
+		956E052218F8E6EB00253B40 /* RSSViewUtilites.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E052118F8E6EB00253B40 /* RSSViewUtilites.m */; };
 		9586AE7718F43D4C00942D6A /* RSSImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */; };
 		95966E1118EFABEB00D66B1D /* UINavigationWithProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95966E1018EFABEB00D66B1D /* UINavigationWithProgressViewController.m */; };
 /* End PBXBuildFile section */
@@ -90,6 +92,10 @@
 		956E051518F8C6D700253B40 /* Feed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Feed.m; sourceTree = "<group>"; };
 		956E051718F8C6D800253B40 /* Story.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
 		956E051818F8C6D800253B40 /* Story.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
+		956E051A18F8DF6500253B40 /* RSSFeedFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSFeedFetcher.h; sourceTree = "<group>"; };
+		956E051B18F8DF6500253B40 /* RSSFeedFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSFeedFetcher.m; sourceTree = "<group>"; };
+		956E052018F8E6EB00253B40 /* RSSViewUtilites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSViewUtilites.h; sourceTree = "<group>"; };
+		956E052118F8E6EB00253B40 /* RSSViewUtilites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSViewUtilites.m; sourceTree = "<group>"; };
 		9586AE7518F43D4C00942D6A /* RSSImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSImageToDataTransformer.h; sourceTree = "<group>"; };
 		9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSImageToDataTransformer.m; sourceTree = "<group>"; };
 		95966E0F18EFABEB00D66B1D /* UINavigationWithProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigationWithProgressViewController.h; sourceTree = "<group>"; };
@@ -182,6 +188,8 @@
 				1FD2107118CAAE80006B7B4C /* RSSAppDelegate.m */,
 				956E051118F8AA8C00253B40 /* RSSFeedParser.h */,
 				956E051218F8AA8C00253B40 /* RSSFeedParser.m */,
+				956E051A18F8DF6500253B40 /* RSSFeedFetcher.h */,
+				956E051B18F8DF6500253B40 /* RSSFeedFetcher.m */,
 				1FD2106818CAAE80006B7B4C /* Supporting Files */,
 			);
 			path = RSSReader;
@@ -233,6 +241,8 @@
 				95966E1018EFABEB00D66B1D /* UINavigationWithProgressViewController.m */,
 				1FA7AB6618E81AE400891861 /* RSSStoryListCell.h */,
 				1FA7AB6718E81AE400891861 /* RSSStoryListCell.m */,
+				956E052018F8E6EB00253B40 /* RSSViewUtilites.h */,
+				956E052118F8E6EB00253B40 /* RSSViewUtilites.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -375,9 +385,11 @@
 			files = (
 				1FD2106E18CAAE80006B7B4C /* main.m in Sources */,
 				1F95C1C018D5E4D7005279D4 /* RSSReader.xcdatamodeld in Sources */,
+				956E052218F8E6EB00253B40 /* RSSViewUtilites.m in Sources */,
 				1FA7AB6818E81AE400891861 /* RSSStoryListCell.m in Sources */,
 				956E051918F8C6D800253B40 /* Story.m in Sources */,
 				956E051618F8C6D700253B40 /* Feed.m in Sources */,
+				956E051C18F8DF6500253B40 /* RSSFeedFetcher.m in Sources */,
 				1FD2109B18CAB15A006B7B4C /* RSSStoryListViewController.m in Sources */,
 				1FD2107218CAAE80006B7B4C /* RSSAppDelegate.m in Sources */,
 				1FD2109818CAAF19006B7B4C /* RSSFeedListViewController.m in Sources */,

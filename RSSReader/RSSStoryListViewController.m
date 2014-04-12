@@ -11,6 +11,8 @@
 #import "Story+Create.h"
 #import "RSSStoryListCell.h"
 #import "RSSFeedParser.h"
+#import "RSSFeedFetcher.h"
+#import "RSSViewUtilites.h"
 
 @interface RSSStoryListViewController ()
 @property (nonatomic, strong) NSMutableArray *items;
@@ -78,54 +80,35 @@
 - (IBAction)refreshStoryList:(id)sender
 {
     [self.refreshControl beginRefreshing];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.feed.link]];
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
-        completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
-            if (!error) {
-                NSData *data = [NSData dataWithContentsOfURL:location];
-                NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:self.feed.link];
-                if (feedDictionary) {
-                    NSDate *now = [NSDate date];
-                    NSInteger sequence = 0;
-                    for (NSDictionary *item in [feedDictionary objectForKey:kItemElementName]) {
-                        ++sequence;
-                        [self.managedObjectContext performBlock:^{
-                            Story *story = [Story storyWithDictionary:item
-                                                           createDate:now
-                                                      sequenceInBatch:sequence
-                                                     inManagedContext:self.managedObjectContext];
-                            if (story) {
-                                story.belongTo = self.feed;
-                            }
-                        }];
-                    }
-                } else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Parse feed error"
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Cancel"
-                                                  otherButtonTitles:nil, nil];
-                        [alertView show];
-                    });
+    [RSSFeedFetcher fetchFeedWithURL:[NSURL URLWithString:self.feed.link] completionHandler:^(NSURL *location, NSError *error) {
+        if (error) {
+            [RSSViewUtilites showAlertViewWithTitle:@"Fetch feed error" message:error.localizedDescription];
+        } else if (location) {
+            NSData *data = [NSData dataWithContentsOfURL:location];
+            NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:self.feed.link];
+            if (feedDictionary) {
+                NSDate *now = [NSDate date];
+                NSInteger sequence = 0;
+                for (NSDictionary *item in [feedDictionary objectForKey:kItemElementName]) {
+                    ++sequence;
+                    [self.managedObjectContext performBlock:^{
+                        Story *story = [Story storyWithDictionary:item
+                                                       createDate:now
+                                                  sequenceInBatch:sequence
+                                                 inManagedContext:self.managedObjectContext];
+                        if (story) {
+                            story.belongTo = self.feed;
+                        }
+                    }];
                 }
             } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Fetch feed error"
-                                                                        message:error.localizedDescription
-                                                                       delegate:nil
-                                                              cancelButtonTitle:@"Cancel"
-                                                              otherButtonTitles:nil, nil];
-                    [alertView show];
-                });
+                [RSSViewUtilites showAlertViewWithTitle:@"Parse feed error" message:nil];
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.refreshControl endRefreshing];
-            });
-        }];
-    [task resume];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.refreshControl endRefreshing];
+        });
+    }];
 }
 
 @end
