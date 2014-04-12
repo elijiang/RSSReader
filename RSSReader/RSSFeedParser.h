@@ -15,7 +15,6 @@ static NSString * const kDescriptionElementName = @"description";
 
 @interface RSSFeedParser : NSObject
 
-- (instancetype)initWithURL:(NSURL *)feedURL;
-- (NSDictionary *)parse;
++ (NSDictionary *)parseFeedWithData:(NSData *)data link:(NSString *)link;
 
 @end

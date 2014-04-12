@@ -84,8 +84,8 @@
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
         completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
             if (!error) {
-                RSSFeedParser *parser = [[RSSFeedParser alloc] initWithURL:location];
-                NSDictionary *feedDictionary = [parser parse];
+                NSData *data = [NSData dataWithContentsOfURL:location];
+                NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:self.feed.link];
                 if (feedDictionary) {
                     NSDate *now = [NSDate date];
                     NSInteger sequence = 0;

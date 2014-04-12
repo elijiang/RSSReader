@@ -16,27 +16,18 @@
 
 @implementation RSSFeedParser
 
-- (instancetype)initWithURL:(NSURL *)feedURL
-{
-    self = [super init];
-    if (self) {
-        self.feedURL = feedURL;
-        self.document = [[TFHpple alloc] initWithXMLData:[NSData dataWithContentsOfURL:feedURL]];
-    }
-    return self;
-}
-
-- (NSDictionary *)parse
++ (NSDictionary *)parseFeedWithData:(NSData *)data link:(NSString *)link
 {
     NSMutableDictionary *result = nil;
 
-    if (self.feedURL) {
+    if (data) {
         result = [[NSMutableDictionary alloc] init];
         
+        TFHpple *document = [[TFHpple alloc] initWithXMLData:data];
+        TFHppleElement *element = [[document searchWithXPathQuery:@"//channel"] firstObject];
+        
         // Add channel link
-        [result setObject:[self.feedURL absoluteString] forKey:kLinkElementName];
-    
-        TFHppleElement *element = [[self.document searchWithXPathQuery:@"//channel"] firstObject];
+        [result setObject:link forKey:kLinkElementName];
         
         // Add channel title
         [result setObject:[[element firstChildWithTagName:kTitleElementName] text] forKey:kTitleElementName];

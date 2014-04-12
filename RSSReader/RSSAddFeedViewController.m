@@ -107,8 +107,8 @@
                 if (!error) {
                     NSLog(@"Download feed %@ to location:%@", feedURL, location);
                     if ([request.URL isEqual:feedURL]) {
-                        RSSFeedParser *parser = [[RSSFeedParser alloc] initWithURL:feedURL];
-                        NSDictionary *feedDictionary = [parser parse];
+                        NSData *data = [NSData dataWithContentsOfURL:location];
+                        NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:[feedURL absoluteString]];
                         if (feedDictionary) {
                             NSLog(@"Parse feed %@ success", feedURL);
                             [self.managedObjectContext performBlock:^{
