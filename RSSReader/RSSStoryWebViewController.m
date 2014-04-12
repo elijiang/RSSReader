@@ -31,6 +31,7 @@
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.storyURL]];
     self.webView.delegate = self;
     self.progressTimer = [NSTimer scheduledTimerWithTimeInterval:0.1667f target:self selector:@selector(increaseProcess) userInfo:nil repeats:YES];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,6 +45,7 @@
     [super viewWillDisappear:animated];
     [self progressView].hidden = YES;
     [self progressView].progress = 0;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,6 +71,7 @@
 {
     --self.webViewLoadFrames;
     if (!self.webViewLoadFrames) {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.finishLoad = YES;
         NSLog(@"Finished load URL:%@", self.storyURL);
     }
@@ -78,6 +81,7 @@
 {
     self.webViewLoadFrames = 0;
     [self fadeProgressView];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 #pragma mark - Help functions

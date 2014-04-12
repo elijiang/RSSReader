@@ -15,8 +15,6 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 
 @interface RSSFeedListViewController ()
 
-//@property (nonatomic, strong) NSMutableArray *feedsNeedUpdate;
-
 @end
 
 @implementation RSSFeedListViewController
@@ -24,8 +22,6 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-//    [self.rssList addObject:[NSURL URLWithString:@"http://coolshell.cn/feed"]];
     self.tableView.rowHeight = 66.0f;
 }
 
@@ -40,12 +36,6 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:nil];
 }
-
-//- (NSMutableArray *)feedsURL
-//{
-//    if (!_feedsURL) _feedsURL = [[NSMutableArray alloc] init];
-//    return _feedsURL;
-//}
 
 #pragma mark - Table view data source
 
