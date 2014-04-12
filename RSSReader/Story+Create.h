@@ -14,5 +14,6 @@
                     createDate:(NSDate *)date
                sequenceInBatch:(NSInteger)sequence
               inManagedContext:(NSManagedObjectContext *)context;
++ (void)updateSotries:(NSArray *)stories ofFeed:(Feed *)feed inManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

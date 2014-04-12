@@ -10,5 +10,7 @@
 #import "CoreDataTableViewController.h"
 
 @interface RSSFeedListViewController : CoreDataTableViewController
+
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 @end

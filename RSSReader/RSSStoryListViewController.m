@@ -87,20 +87,7 @@
             NSData *data = [NSData dataWithContentsOfURL:location];
             NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:self.feed.link];
             if (feedDictionary) {
-                NSDate *now = [NSDate date];
-                NSInteger sequence = 0;
-                for (NSDictionary *item in [feedDictionary objectForKey:kItemElementName]) {
-                    ++sequence;
-                    [self.managedObjectContext performBlock:^{
-                        Story *story = [Story storyWithDictionary:item
-                                                       createDate:now
-                                                  sequenceInBatch:sequence
-                                                 inManagedContext:self.managedObjectContext];
-                        if (story) {
-                            story.belongTo = self.feed;
-                        }
-                    }];
-                }
+                [Story updateSotries:[feedDictionary objectForKey:kItemElementName] ofFeed:self.feed inManagedObjectContext:self.managedObjectContext];
             } else {
                 [RSSViewUtilites showAlertViewWithTitle:@"Parse feed error" message:nil];
             }

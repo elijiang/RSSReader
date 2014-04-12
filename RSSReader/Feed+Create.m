@@ -49,7 +49,7 @@
     return feed;
 }
 
-+ (Feed *)feedWithLink:(NSString *)feedLink inManagedContext:(NSManagedObjectContext *)context
++ (Feed *)feedWithLink:(NSString *)feedLink inManagedObjectContext:(NSManagedObjectContext *)context
 {
     Feed *feed = nil;
     if (feedLink) {
@@ -66,6 +66,22 @@
     }
     
     return feed;
+}
+
++ (NSArray *)allFeedsinManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSArray *feeds = nil;
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Feed"];
+    request.predicate = nil;
+    
+    NSError *error;
+    feeds = [context executeFetchRequest:request error:&error];
+    if (error) {
+        NSLog(@"Fetch all feeds with error:%@", error.localizedDescription);
+        feeds = nil;
+    }
+    
+    return feeds;
 }
 
 @end

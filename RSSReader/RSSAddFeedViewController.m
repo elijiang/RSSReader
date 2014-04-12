@@ -54,7 +54,7 @@
     if (self.textField.text) {
         NSString *link = [self.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \t"]];
         if (link.length) {
-            Feed *feed = [Feed feedWithLink:link inManagedContext:self.managedObjectContext];
+            Feed *feed = [Feed feedWithLink:link inManagedObjectContext:self.managedObjectContext];
             if (feed) {
                 [RSSViewUtilites showAlertViewWithTitle:@"Add feed error" message:@"Feed already exists" delegate:self];
             } else {

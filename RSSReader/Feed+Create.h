@@ -11,6 +11,7 @@
 @interface Feed (Create)
 
 + (Feed *)feedWithDictionary:(NSDictionary *)feedDictionary inManagedObjectContext:(NSManagedObjectContext *)context;
-+ (Feed *)feedWithLink:(NSString *)feedLink inManagedContext:(NSManagedObjectContext *)context;
++ (Feed *)feedWithLink:(NSString *)feedLink inManagedObjectContext:(NSManagedObjectContext *)context;
++ (NSArray *)allFeedsinManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

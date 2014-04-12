@@ -42,4 +42,15 @@
     return story;
 }
 
++ (void)updateSotries:(NSArray *)stories ofFeed:(Feed *)feed inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSDate *now = [NSDate date];
+    NSInteger sequence = 0;
+    for (NSDictionary *storyDictionary in stories) {
+        ++sequence;
+        Story *story = [self storyWithDictionary:storyDictionary createDate:now sequenceInBatch:sequence inManagedContext:context];
+        story.belongTo = feed;
+    }
+}
+
 @end

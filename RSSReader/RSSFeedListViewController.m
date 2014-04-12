@@ -10,8 +10,13 @@
 #import "RSSStoryListViewController.h"
 #import "RSSAddFeedViewController.h"
 #import "Feed.h"
+//#import "Story+Create.h"
+//#import "RSSFeedFetcher.h"
+//#import "RSSFeedParser.h"
 
 @interface RSSFeedListViewController ()
+
+//@property (nonatomic, strong) NSMutableArray *feedsNeedUpdate;
 
 @end
 
@@ -36,6 +41,12 @@
                                                                           sectionNameKeyPath:nil
                                                                                    cacheName:nil];
 }
+
+//- (NSMutableArray *)feedsURL
+//{
+//    if (!_feedsURL) _feedsURL = [[NSMutableArray alloc] init];
+//    return _feedsURL;
+//}
 
 #pragma mark - Table view data source
 

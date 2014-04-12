@@ -9,11 +9,15 @@
 #import "RSSAppDelegate.h"
 #import <CoreData/CoreData.h>
 #import "RSSFeedListViewController.h"
+#import "Feed+Create.h"
+#import "Story+Create.h"
+#import "RSSFeedParser.h"
 
 @interface RSSAppDelegate ()
 @property (nonatomic, strong) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong) NSMutableArray *feedsNeedUpdate;
 @end
 
 @implementation RSSAppDelegate
@@ -74,6 +78,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    
     UINavigationController *navgationController = (UINavigationController *)self.window.rootViewController;
     RSSFeedListViewController *feedListViewController = (RSSFeedListViewController *)[navgationController.viewControllers firstObject];
     feedListViewController.managedObjectContext = self.managedObjectContext;
@@ -108,6 +114,47 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     [self saveContext];
+}
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    if (!self.feedsNeedUpdate || !self.feedsNeedUpdate.count) {
+        NSArray *feeds = [Feed allFeedsinManagedObjectContext:self.managedObjectContext];
+        self.feedsNeedUpdate = [feeds mutableCopy];
+    }
+    
+    if (self.feedsNeedUpdate.count) {
+        Feed *feed = [self.feedsNeedUpdate firstObject];
+        [self.feedsNeedUpdate removeObject:feed];
+        
+        NSURL *feedURL = [NSURL URLWithString:feed.link];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        NSURLRequest *request = [NSURLRequest requestWithURL:feedURL];
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        configuration.allowsCellularAccess = NO;
+        configuration.timeoutIntervalForRequest = 20;
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+            completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                if (!error) {
+                    NSLog(@"Download feed %@ in background to location:%@", feedURL, location);
+                    if ([request.URL isEqual:feedURL]) {
+                        NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:[NSData dataWithContentsOfURL:location] link:feed.link];
+                        [self.managedObjectContext performBlock:^{
+                            [Story updateSotries:[feedDictionary objectForKey:kItemElementName] ofFeed:feed inManagedObjectContext:self.managedObjectContext];
+                        }];
+                        completionHandler(UIBackgroundFetchResultNewData);
+                    } else {
+                        completionHandler(UIBackgroundFetchResultNoData);
+                    }
+                } else {
+                    NSLog(@"Download feed %@ in background error:%@", feedURL, error.localizedDescription);
+                    completionHandler(UIBackgroundFetchResultFailed);
+                }
+            }];
+        [task resume];
+    }
 }
 
 @end
