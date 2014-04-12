@@ -8,7 +8,7 @@
         <scene sceneID="Wd8-aA-a33">
             <objects>
                 <tableViewController id="JKr-mW-vMk" customClass="RSSFeedListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="X44-kh-zSt">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="X44-kh-zSt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,15 +46,38 @@
                             <outlet property="delegate" destination="JKr-mW-vMk" id="57c-xW-JgU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Feeds" id="EA9-YC-Ylk">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="yGV-9L-XyX">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="7u6-c1-OfW"/>
+                        <barButtonItem title="Item" id="YSN-dH-Ll5">
                             <connections>
-                                <segue destination="7hU-Du-OFo" kind="modal" identifier="Add Feed" id="MmJ-mx-7ZA"/>
+                                <action selector="deleteAction:" destination="JKr-mW-vMk" id="h2J-hU-syJ"/>
                             </connections>
                         </barButtonItem>
-                    </navigationItem>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Feeds" id="EA9-YC-Ylk"/>
+                    <connections>
+                        <outlet property="addButton" destination="yGV-9L-XyX" id="b8h-ZU-oFM"/>
+                        <outlet property="cancelButton" destination="6B7-mp-Hhj" id="Dar-bt-7pF"/>
+                        <outlet property="deleteButton" destination="YSN-dH-Ll5" id="Hl0-wE-KyB"/>
+                        <outlet property="editButton" destination="3nV-dg-nLe" id="17n-wJ-UoN"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hYd-1G-7U8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <barButtonItem systemItem="add" id="yGV-9L-XyX">
+                    <connections>
+                        <segue destination="EB2-Qf-fkC" kind="modal" id="9zP-VZ-GDS"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="edit" id="3nV-dg-nLe">
+                    <connections>
+                        <action selector="editAction:" destination="JKr-mW-vMk" id="NfH-EW-26u"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="cancel" id="6B7-mp-Hhj">
+                    <connections>
+                        <action selector="cancelAction:" destination="JKr-mW-vMk" id="tLA-gb-WoD"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="1204" y="79"/>
         </scene>
@@ -124,7 +147,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WhI-6k-KVr" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="1vJ-4a-cnR" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2004" y="733"/>
+            <point key="canvasLocation" x="2004" y="735"/>
         </scene>
         <!--Story List View Controller-->
         <scene sceneID="dyB-XY-dER">
@@ -238,6 +261,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="nWi-3O-Z2J">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="JKr-mW-vMk" kind="relationship" relationship="rootViewController" id="MbX-Hb-b3r"/>
                     </connections>
@@ -247,22 +274,22 @@
             <point key="canvasLocation" x="808" y="79"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="qTg-7b-fsB">
+        <scene sceneID="J8N-79-mya">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7hU-Du-OFo" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="EB2-Qf-fkC" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uHA-86-XTY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yv1-jU-lZT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Rhu-rJ-qe8" kind="relationship" relationship="rootViewController" id="KXk-fl-t58"/>
+                        <segue destination="Rhu-rJ-qe8" kind="relationship" relationship="rootViewController" id="toC-bR-3bO"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MTd-rS-cZC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2mc-He-m19" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1605" y="733"/>
+            <point key="canvasLocation" x="1605" y="735"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

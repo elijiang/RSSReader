@@ -15,6 +15,11 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 
 @interface RSSFeedListViewController ()
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *addButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
+
 @end
 
 @implementation RSSFeedListViewController
@@ -23,6 +28,22 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 {
     [super viewDidLoad];
     self.tableView.rowHeight = 66.0f;
+    self.navigationItem.leftBarButtonItem = self.editButton;
+    self.navigationItem.rightBarButtonItem = self.addButton;
+//    self.navigationController.toolbarHidden = NO;
+    self.deleteButton.title = @"Delete";
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+//    self.navigationController.toolbarHidden = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+//    self.navigationController.toolbarHidden = YES;
 }
 
 - (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
@@ -78,6 +99,21 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
     }
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.editing && tableView.indexPathsForSelectedRows.count) {
+        self.deleteButton.enabled = YES;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.editing && !tableView.indexPathsForSelectedRows.count) {
+        self.deleteButton.enabled = NO;
+    }
+}
+
+
 #pragma mark - Navigation
 
 // In a story board-based application, you will often want to do a little preparation before navigation
@@ -99,10 +135,45 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
     }
 }
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if (self.tableView.editing) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark - Actions
 
 - (IBAction)unwindToFeedList:(UIStoryboardSegue *)segue
 {
+}
+
+- (IBAction)editAction:(id)sender
+{
+    self.navigationItem.leftBarButtonItem = self.cancelButton;
+    self.navigationItem.rightBarButtonItem = nil;
+    self.tableView.editing = YES;
+    self.navigationController.toolbarHidden = NO;
+    self.deleteButton.enabled = NO;
+}
+
+- (IBAction)cancelAction:(id)sender
+{
+    self.navigationItem.leftBarButtonItem = self.editButton;
+    self.navigationItem.rightBarButtonItem = self.addButton;
+    self.tableView.editing = NO;
+    self.navigationController.toolbarHidden = YES;
+}
+
+- (IBAction)deleteAction:(id)sender
+{
+    NSArray *indexPaths = self.tableView.indexPathsForSelectedRows;
+    for (NSIndexPath *indexPath in indexPaths) {
+        Feed *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        [self.managedObjectContext deleteObject:feed];
+    }
+    [self cancelAction:sender];
 }
 
 #pragma mark - Help functions
