@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
+#import <IQUIView+IQKeyboardToolbar.h>
 #import "RSSAddFeedViewController.h"
 #import "Feed+Create.h"
 #import "RSSFeedParser.h"
@@ -39,6 +40,10 @@
 	// Do any additional setup after loading the view.
     self.addButton.enabled = NO;
     self.textField.delegate = self;
+    [self.textField addPreviousNextDoneOnKeyboardWithTarget:self
+                                             previousAction:@selector(previousAction:)
+                                                 nextAction:@selector(nextAction:)
+                                                 doneAction:@selector(doneAction:)];
     [self.textField becomeFirstResponder];
 }
 
@@ -84,6 +89,31 @@
 - (IBAction)textFieldEditingChanged:(UITextField *)sender
 {
     self.addButton.enabled = (sender.text.length > 0);
+}
+
+- (void)previousAction:(id)sender
+{
+    UITextRange *selectedRange = [self.textField selectedTextRange];
+    UITextPosition *newPosition = [self.textField positionFromPosition:selectedRange.start
+                                                           inDirection:UITextLayoutDirectionLeft
+                                                                offset:1];
+    UITextRange *newRange = [self.textField textRangeFromPosition:newPosition toPosition:newPosition];
+    [self.textField setSelectedTextRange:newRange];
+}
+
+- (void)nextAction:(id)sender
+{
+    UITextRange *selectedRange = [self.textField selectedTextRange];
+    UITextPosition *newPosition = [self.textField positionFromPosition:selectedRange.end
+                                                           inDirection:UITextLayoutDirectionRight
+                                                                offset:1];
+    UITextRange *newRange = [self.textField textRangeFromPosition:newPosition toPosition:newPosition];
+    [self.textField setSelectedTextRange:newRange];
+}
+
+- (void)doneAction:(id)sender
+{
+    [self.textField resignFirstResponder];
 }
 
 #pragma mark - Favicon
