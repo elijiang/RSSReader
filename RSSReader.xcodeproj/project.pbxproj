@@ -35,6 +35,7 @@
 		956E051918F8C6D800253B40 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E051818F8C6D800253B40 /* Story.m */; };
 		956E051C18F8DF6500253B40 /* RSSFeedFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E051B18F8DF6500253B40 /* RSSFeedFetcher.m */; };
 		956E052218F8E6EB00253B40 /* RSSViewUtilites.m in Sources */ = {isa = PBXBuildFile; fileRef = 956E052118F8E6EB00253B40 /* RSSViewUtilites.m */; };
+		956E052418F90F4200253B40 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 956E052318F90F4200253B40 /* Settings.bundle */; };
 		9586AE7718F43D4C00942D6A /* RSSImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */; };
 		95966E1118EFABEB00D66B1D /* UINavigationWithProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95966E1018EFABEB00D66B1D /* UINavigationWithProgressViewController.m */; };
 /* End PBXBuildFile section */
@@ -96,6 +97,7 @@
 		956E051B18F8DF6500253B40 /* RSSFeedFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSFeedFetcher.m; sourceTree = "<group>"; };
 		956E052018F8E6EB00253B40 /* RSSViewUtilites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSViewUtilites.h; sourceTree = "<group>"; };
 		956E052118F8E6EB00253B40 /* RSSViewUtilites.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSViewUtilites.m; sourceTree = "<group>"; };
+		956E052318F90F4200253B40 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		9586AE7518F43D4C00942D6A /* RSSImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSSImageToDataTransformer.h; sourceTree = "<group>"; };
 		9586AE7618F43D4C00942D6A /* RSSImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSSImageToDataTransformer.m; sourceTree = "<group>"; };
 		95966E0F18EFABEB00D66B1D /* UINavigationWithProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINavigationWithProgressViewController.h; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 		1FD2105518CAAE80006B7B4C = {
 			isa = PBXGroup;
 			children = (
+				956E052318F90F4200253B40 /* Settings.bundle */,
 				1FD2106718CAAE80006B7B4C /* RSSReader */,
 				1FD2108618CAAE81006B7B4C /* RSSReaderTests */,
 				1FD2106018CAAE80006B7B4C /* Frameworks */,
@@ -334,6 +337,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				956E052418F90F4200253B40 /* Settings.bundle in Resources */,
 				1FD2107A18CAAE80006B7B4C /* Images.xcassets in Resources */,
 				1FD2106C18CAAE80006B7B4C /* InfoPlist.strings in Resources */,
 				1FD2107518CAAE80006B7B4C /* Main.storyboard in Resources */,

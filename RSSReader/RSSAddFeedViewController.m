@@ -86,41 +86,12 @@
     self.addButton.enabled = (sender.text.length > 0);
 }
 
-#pragma mark - Helper functions
+#pragma mark - Favicon
 
-- (void)startDownloadFeed:(NSURL *)feedURL
+- (BOOL)shouldDownloadFavicon
 {
-    if (feedURL) {
-        self.addButton.enabled = NO;
-        [self.spinner startAnimating];
-        [RSSFeedFetcher fetchFeedWithURL:feedURL completionHandler:^(NSURL *location, NSError *error) {
-            if (error) {
-                [RSSViewUtilites showAlertViewWithTitle:@"Fetch feed error" message:error.localizedDescription delegate:self];
-            } else if (location) {
-                NSData *data = [NSData dataWithContentsOfURL:location];
-                NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:[feedURL absoluteString]];
-                if (feedDictionary) {
-                    NSLog(@"Parse feed %@ success", feedURL);
-                    [self.managedObjectContext performBlock:^{
-                        __block Feed *feed = [Feed feedWithDictionary:feedDictionary inManagedObjectContext:self.managedObjectContext];
-                        [self downloadFavicon:[self faviconURL:feedURL] completionHandler:^(UIImage *image) {
-                            feed.icon = image;
-                        }];
-                    }];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];
-                    });
-                } else {
-                    NSLog(@"Parse feed %@ error", feedURL);
-                    [RSSViewUtilites showAlertViewWithTitle:@"Parse feed error" message:nil];
-                }
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.addButton.enabled = YES;
-                [self.spinner stopAnimating];
-            });
-        }];
-    }
+    BOOL result = [[NSUserDefaults standardUserDefaults] boolForKey:@"Download Favicon"];
+    return result;
 }
 
 - (NSURL *)faviconURL:(NSURL *)feedURL
@@ -147,5 +118,46 @@
         [task resume];
     }
 }
+
+#pragma mark - Helper functions
+
+- (void)startDownloadFeed:(NSURL *)feedURL
+{
+    if (feedURL) {
+        self.addButton.enabled = NO;
+        [self.spinner startAnimating];
+        [RSSFeedFetcher fetchFeedWithURL:feedURL completionHandler:^(NSURL *location, NSError *error) {
+            if (error) {
+                [RSSViewUtilites showAlertViewWithTitle:@"Fetch feed error" message:error.localizedDescription delegate:self];
+            } else if (location) {
+                NSData *data = [NSData dataWithContentsOfURL:location];
+                NSDictionary *feedDictionary = [RSSFeedParser parseFeedWithData:data link:[feedURL absoluteString]];
+                if (feedDictionary) {
+                    NSLog(@"Parse feed %@ success", feedURL);
+                    [self.managedObjectContext performBlock:^{
+                        __block Feed *feed = [Feed feedWithDictionary:feedDictionary inManagedObjectContext:self.managedObjectContext];
+                        if ([self shouldDownloadFavicon]) {
+                            [self downloadFavicon:[self faviconURL:feedURL] completionHandler:^(UIImage *image) {
+                                feed.icon = image;
+                            }];
+                        }
+                    }];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];
+                    });
+                } else {
+                    NSLog(@"Parse feed %@ error", feedURL);
+                    [RSSViewUtilites showAlertViewWithTitle:@"Parse feed error" message:nil];
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.addButton.enabled = YES;
+                [self.spinner stopAnimating];
+            });
+        }];
+    }
+}
+
+
 
 @end

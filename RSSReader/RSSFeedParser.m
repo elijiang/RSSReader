@@ -7,6 +7,7 @@
 //
 
 #import <TFHpple.h>
+#import <NSAttributedString+HTML.h>
 #import "RSSFeedParser.h"
 
 @interface RSSFeedParser ()
@@ -43,11 +44,11 @@
             NSString *itemLink = [[itemElement firstChildWithTagName:kLinkElementName] text];
             TFHppleElement *descElement = [itemElement firstChildWithTagName:kDescriptionElementName];
             NSString *itemDescription = [[descElement firstChild] content];
-            TFHpple *descriptionDocument = [[TFHpple alloc] initWithHTMLData:[itemDescription dataUsingEncoding:NSUTF8StringEncoding]];
-            NSArray *elements = [descriptionDocument searchWithXPathQuery:@"//a"];
-            if (elements.count) {
-                TFHppleElement *element = [elements firstObject];
-                itemDescription = [element text];
+            if ([itemDescription rangeOfString:@"<"].length) {
+                NSString *plainText = [self stripHTMLString:itemDescription];
+                if (plainText) {
+                    itemDescription = plainText;
+                }
             }
             [items addObject:@{ kTitleElementName : itemTitle,
                                 kLinkElementName : itemLink,
@@ -57,6 +58,12 @@
     }
     
     return [result copy];
+}
+
++ (NSString *)stripHTMLString:(NSString *)string{
+    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
+    NSAttributedString *attrString = [[NSAttributedString alloc] initWithHTMLData:data options:nil documentAttributes:nil];
+    return attrString.string;
 }
 
 @end

@@ -10,9 +10,8 @@
 #import "RSSStoryListViewController.h"
 #import "RSSAddFeedViewController.h"
 #import "Feed.h"
-//#import "Story+Create.h"
-//#import "RSSFeedFetcher.h"
-//#import "RSSFeedParser.h"
+
+static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 
 @interface RSSFeedListViewController ()
 
@@ -62,7 +61,11 @@
     if (feed.icon) {
         cell.imageView.image = [self imageWithImage:feed.icon scaleToSize:CGSizeMake(44.0f, 44.0f)];
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
+    } else {
+        cell.imageView.image = nil;
+        cell.separatorInset = UIEdgeInsetsMake(0, kDefaultSeparatorLeftInset, 0, 0);
     }
+
 //    CGPoint original = cell.textLabel.frame.origin;
 //    CGSize size = cell.textLabel.frame.size;
 //    NSLog(@"text label x:%f, y:%f, width:%f, height:%f, font:%@",
