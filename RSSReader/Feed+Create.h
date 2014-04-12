@@ -10,6 +10,7 @@
 
 @interface Feed (Create)
 
-+ (Feed *)feedWithURL:(NSURL *)url title:(NSString *)title desc:(NSString *)desc items:(NSMutableArray *)items inManagedObjectContext:(NSManagedObjectContext *)context;
++ (Feed *)feedWithDictionary:(NSDictionary *)feedDictionary inManagedObjectContext:(NSManagedObjectContext *)context;
++ (Feed *)feedWithLink:(NSString *)feedLink inManagedContext:(NSManagedObjectContext *)context;
 
 @end

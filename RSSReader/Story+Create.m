@@ -7,18 +7,18 @@
 //
 
 #import "Story+Create.h"
+#import "RSSFeedParser.h"
 
 @implementation Story (Create)
 
-+ (Story *)storyWithTitle:(NSString *)title
-                     link:(NSString *)link
-                     desc:(NSString *)desc
-               createDate:(NSDate *)date
-          sequenceInBatch:(NSInteger)sequence
-         inManagedContext:(NSManagedObjectContext *)context
++ (Story *)storyWithDictionary:(NSDictionary *)storyDictionary
+                    createDate:(NSDate *)date
+               sequenceInBatch:(NSInteger)sequence
+              inManagedContext:(NSManagedObjectContext *)context
 {
     Story *story = nil;
-    if (title.length) {
+    NSString *link = [storyDictionary objectForKey:kLinkElementName];
+    if (link.length) {
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Story"];
         request.predicate = [NSPredicate predicateWithFormat:@"link = %@", link];
         
@@ -30,9 +30,9 @@
             story = [matches firstObject];
         } else {
             story = [NSEntityDescription insertNewObjectForEntityForName:@"Story" inManagedObjectContext:context];
-            story.title = title;
-            story.link = link;
-            story.desc = desc;
+            story.title = [storyDictionary objectForKey:kTitleElementName];
+            story.link = [storyDictionary objectForKey:kLinkElementName];
+            story.desc = [storyDictionary objectForKey:kDescriptionElementName];
             story.createDate = date;
             story.sequenceInBatch = @(sequence);
             NSLog(@"Add story, title:%@, link:%@", story.title, story.link);

@@ -7,12 +7,12 @@
 //
 
 #import "RSSStoryListViewController.h"
-#import "RSSParseOperation.h"
 #import "RSSStoryWebViewController.h"
 #import "Story+Create.h"
 #import "RSSStoryListCell.h"
+#import "RSSFeedParser.h"
 
-@interface RSSStoryListViewController () <RSSParseOperationDelegate>
+@interface RSSStoryListViewController ()
 @property (nonatomic, strong) NSMutableArray *items;
 @end
 
@@ -80,24 +80,22 @@
     [self.refreshControl beginRefreshing];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.feed.url]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.feed.link]];
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
         completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
             if (!error) {
-                RSSParseOperation *parser = [[RSSParseOperation alloc] initWithURL:location];
-                parser.delegate = self;
-                if ([parser parse]) {
+                RSSFeedParser *parser = [[RSSFeedParser alloc] initWithURL:location];
+                NSDictionary *feedDictionary = [parser parse];
+                if (feedDictionary) {
                     NSDate *now = [NSDate date];
                     NSInteger sequence = 0;
-                    for (RSSFeedItem *item in self.items) {
+                    for (NSDictionary *item in [feedDictionary objectForKey:kItemElementName]) {
                         ++sequence;
                         [self.managedObjectContext performBlock:^{
-                            Story *story = [Story storyWithTitle:item.itemTitle
-                                                            link:item.itemLink
-                                                            desc:item.itemDescription
-                                                      createDate:now
-                                                 sequenceInBatch:sequence
-                                                inManagedContext:self.managedObjectContext];
+                            Story *story = [Story storyWithDictionary:item
+                                                           createDate:now
+                                                      sequenceInBatch:sequence
+                                                     inManagedContext:self.managedObjectContext];
                             if (story) {
                                 story.belongTo = self.feed;
                             }
@@ -106,7 +104,7 @@
                 } else {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Parse feed error"
-                                                            message:[parser parserError].localizedDescription
+                                                            message:nil
                                                            delegate:nil
                                                   cancelButtonTitle:@"Cancel"
                                                   otherButtonTitles:nil, nil];
@@ -128,13 +126,6 @@
             });
         }];
     [task resume];
-}
-
-#pragma mark - RSSParseOperation delegate
-
-- (void)parsedItems:(NSMutableArray *)items
-{
-    self.items = items;
 }
 
 @end

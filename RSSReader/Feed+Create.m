@@ -8,43 +8,61 @@
 
 #import "Feed+Create.h"
 #import "Story+Create.h"
-#import "RSSFeedItem.h"
+#import "RSSFeedParser.h"
 
 @implementation Feed (Create)
 
-+ (Feed *)feedWithURL:(NSURL *)url title:(NSString *)title desc:(NSString *)desc items:(NSMutableArray *)items inManagedObjectContext:(NSManagedObjectContext *)context
++ (Feed *)feedWithDictionary:(NSDictionary *)feedDictionary inManagedObjectContext:(NSManagedObjectContext *)context
 {
     Feed *feed = nil;
-    if (url) {
+    NSString *link = [feedDictionary objectForKey:kLinkElementName];
+    if (link) {
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Feed"];
-        request.predicate = [NSPredicate predicateWithFormat:@"url = %@", url];
+        request.predicate = [NSPredicate predicateWithFormat:@"link = %@", link];
         
         NSError *error;
         NSArray *feeds = [context executeFetchRequest:request error:&error];
         if (error || feeds.count > 1) {
-            NSLog(@"Fetch feed with url:%@ error:%@", url, error.localizedDescription);
+            NSLog(@"Fetch feed with link:%@ error:%@", link, error.localizedDescription);
         } else if (feeds.count) {
             feed = [feeds firstObject];
         } else {
             feed = [NSEntityDescription insertNewObjectForEntityForName:@"Feed" inManagedObjectContext:context];
-            feed.url = url.absoluteString;
-            feed.title = title;
-            feed.desc = desc;
+            feed.link = link;
+            feed.title = [feedDictionary objectForKey:kTitleElementName];
+            feed.desc = [feedDictionary objectForKey:kDescriptionElementName];
+            NSArray *items = [feedDictionary objectForKey:kItemElementName];
             NSDate *now = [NSDate date];
             NSInteger sequence = 0;
-            for (RSSFeedItem *item in items) {
+            for (NSDictionary *item in items) {
                 ++sequence;
-                Story *story = [Story storyWithTitle:item.itemTitle
-                                                link:item.itemLink
-                                                desc:item.itemDescription
+                Story *story = [Story storyWithDictionary:item
                                           createDate:now
                                      sequenceInBatch:sequence
                                     inManagedContext:context];
                 [feed addStoriesObject:story];
             }
-            NSLog(@"Add feed, url:%@, title:%@, item count:%lu", feed.url, feed.title, (unsigned long)feed.stories.count);
+            NSLog(@"Add feed, link:%@, title:%@, item count:%lu", feed.link, feed.title, (unsigned long)feed.stories.count);
         }
+    }
+    
+    return feed;
+}
+
++ (Feed *)feedWithLink:(NSString *)feedLink inManagedContext:(NSManagedObjectContext *)context
+{
+    Feed *feed = nil;
+    if (feedLink) {
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Feed"];
+        request.predicate = [NSPredicate predicateWithFormat:@"link = %@", feedLink];
         
+        NSError *error;
+        NSArray *feeds = [context executeFetchRequest:request error:&error];
+        if (error || feeds.count > 1) {
+            NSLog(@"Fetch feed with link:%@ error:%@", feedLink, error.localizedDescription);
+        } else if (feeds.count) {
+            feed = [feeds firstObject];
+        }
     }
     
     return feed;

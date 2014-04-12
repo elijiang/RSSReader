@@ -7,10 +7,10 @@
 //
 
 #import "RSSAddFeedViewController.h"
-#import "RSSParseOperation.h"
 #import "Feed+Create.h"
+#import "RSSFeedParser.h"
 
-@interface RSSAddFeedViewController () <RSSParseOperationDelegate, UITextFieldDelegate>
+@interface RSSAddFeedViewController () <UITextFieldDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
@@ -48,38 +48,40 @@
 
 - (IBAction)addFeed:(UIButton *)sender
 {
+    [self.textField resignFirstResponder];
     if (self.textField.text) {
-        NSString *url = [self.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \t"]];
-        if (url.length) {
-            [self startDownloadFeed:[NSURL URLWithString:url]];
+        NSString *link = [self.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" \t"]];
+        if (link.length) {
+            Feed *feed = [Feed feedWithLink:link inManagedContext:self.managedObjectContext];
+            if (feed) {
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Add feed error"
+                                                                    message:[NSString stringWithFormat:@"Feed %@ already exists", link]
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"Cancel"
+                                                          otherButtonTitles:nil, nil];
+                [alertView show];
+            } else {
+                [self startDownloadFeed:[NSURL URLWithString:link]];
+            }
         }
     }
-}
-
-#pragma mark - RSSParseOpertion delegate
-
-- (void)channelTitle:(NSString *)title
-{
-    self.feedTitle = title;
-}
-
-- (void)channelDescription:(NSString *)description
-{
-    self.feedDescription = description;
-}
-
-- (void)parsedItems:(NSMutableArray *)items
-{
-    self.feedItems = items;
 }
 
 #pragma mark - UITextField delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    [self.textField resignFirstResponder];
     [self addFeed:nil];
     return YES;
+}
+
+#pragma mark - UIAlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([alertView.title isEqualToString:@"Add feed error"]) {
+        [self.textField becomeFirstResponder];
+    }
 }
 
 #pragma mark - Actions
@@ -105,15 +107,12 @@
                 if (!error) {
                     NSLog(@"Download feed %@ to location:%@", feedURL, location);
                     if ([request.URL isEqual:feedURL]) {
-                        RSSParseOperation *parseOperation = [[RSSParseOperation alloc] initWithURL:location];
-                        parseOperation.delegate = self;
-                        if ([parseOperation parse]) {
+                        RSSFeedParser *parser = [[RSSFeedParser alloc] initWithURL:feedURL];
+                        NSDictionary *feedDictionary = [parser parse];
+                        if (feedDictionary) {
                             NSLog(@"Parse feed %@ success", feedURL);
                             [self.managedObjectContext performBlock:^{
-                                __block Feed *feed = [Feed feedWithURL:feedURL
-                                                         title:self.feedTitle
-                                                          desc:self.feedDescription
-                                                         items:self.feedItems inManagedObjectContext:self.managedObjectContext];
+                                __block Feed *feed = [Feed feedWithDictionary:feedDictionary inManagedObjectContext:self.managedObjectContext];
                                 [self downloadFavicon:[self faviconURL:feedURL] completionHandler:^(UIImage *image) {
                                     feed.icon = image;
                                 }];
@@ -122,9 +121,9 @@
                                 [self performSegueWithIdentifier:@"Unwind To Feed List" sender:self.addButton];
                             });
                         } else {
-                            NSLog(@"Parse feed %@ error, %@", feedURL, [parseOperation parserError].localizedDescription);
+                            NSLog(@"Parse feed %@ error", feedURL);
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [self showAlertViewWithTitle:@"Parse feed error" message:[parseOperation parserError].localizedDescription];
+                                [self showAlertViewWithTitle:@"Parse feed error" message:nil];
                             });
                         }
                     }
@@ -159,10 +158,6 @@
 
 - (NSURL *)faviconURL:(NSURL *)feedURL
 {
-//    NSLog(@"base url:%@", [feedURL baseURL]);
-//    return [feedURL baseURL];
-//    NSLog(@"scheme:%@", feedURL.scheme);
-//    NSLog(@"host:%@", feedURL.host);
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/favicon.ico", feedURL.scheme, feedURL.host]];
 }
 

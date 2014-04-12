@@ -9,10 +9,10 @@
 #import "Story.h"
 
 @interface Story (Create)
-+ (Story *)storyWithTitle:(NSString *)title
-                     link:(NSString *)link
-                     desc:(NSString *)desc
-               createDate:(NSDate *)date
-          sequenceInBatch:(NSInteger)sequence
-         inManagedContext:(NSManagedObjectContext *)context;
+
++ (Story *)storyWithDictionary:(NSDictionary *)storyDictionary
+                    createDate:(NSDate *)date
+               sequenceInBatch:(NSInteger)sequence
+              inManagedContext:(NSManagedObjectContext *)context;
+
 @end

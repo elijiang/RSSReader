@@ -46,7 +46,7 @@
     
     // Configure the cell...
     Feed *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = feed.title ? feed.title : feed.url;
+    cell.textLabel.text = feed.title ? feed.title : feed.link;
     cell.detailTextLabel.text = feed.desc;
     if (feed.icon) {
         cell.imageView.image = [self imageWithImage:feed.icon scaleToSize:CGSizeMake(44.0f, 44.0f)];
