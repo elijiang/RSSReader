@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 Coremail. All rights reserved.
 //
 
+#import <SVWebViewController.h>
 #import "RSSStoryListViewController.h"
 #import "RSSStoryWebViewController.h"
 #import "Story+Create.h"
@@ -62,6 +63,15 @@
     return cell;
 }
 
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Story *story = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    SVWebViewController *webViewController = [[SVWebViewController alloc] initWithAddress:story.link];
+    [self.navigationController pushViewController:webViewController animated:YES];
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -73,6 +83,11 @@
         storyWebViewController.title = story.title;
         storyWebViewController.storyURL = [NSURL URLWithString:story.link];
     }
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    return NO;
 }
 
 #pragma mark - Actions
