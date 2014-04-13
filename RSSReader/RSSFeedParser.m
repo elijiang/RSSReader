@@ -7,7 +7,6 @@
 //
 
 #import <TFHpple.h>
-#import <NSAttributedString+HTML.h>
 #import "RSSFeedParser.h"
 
 @interface RSSFeedParser ()
@@ -60,10 +59,11 @@
     return [result copy];
 }
 
-+ (NSString *)stripHTMLString:(NSString *)string{
-    NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
-    NSAttributedString *attrString = [[NSAttributedString alloc] initWithHTMLData:data options:nil documentAttributes:nil];
-    return attrString.string;
++ (NSString *)stripHTMLString:(NSString *)origin{
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<[^>]*>" options:0 error:&error];
+    NSString *stripped = [regex stringByReplacingMatchesInString:origin options:0 range:NSMakeRange(0, origin.length) withTemplate:@""];
+    return stripped;
 }
 
 @end

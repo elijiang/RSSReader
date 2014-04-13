@@ -8,7 +8,7 @@
         <scene sceneID="Wd8-aA-a33">
             <objects>
                 <tableViewController id="JKr-mW-vMk" customClass="RSSFeedListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="X44-kh-zSt">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="X44-kh-zSt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,6 +60,7 @@
                         <outlet property="addButton" destination="yGV-9L-XyX" id="b8h-ZU-oFM"/>
                         <outlet property="cancelButton" destination="6B7-mp-Hhj" id="Dar-bt-7pF"/>
                         <outlet property="deleteButton" destination="YSN-dH-Ll5" id="Hl0-wE-KyB"/>
+                        <outlet property="doneButton" destination="8TB-LA-Nud" id="mFL-GC-OT4"/>
                         <outlet property="editButton" destination="3nV-dg-nLe" id="17n-wJ-UoN"/>
                     </connections>
                 </tableViewController>
@@ -77,6 +78,11 @@
                 <barButtonItem systemItem="cancel" id="6B7-mp-Hhj">
                     <connections>
                         <action selector="cancelAction:" destination="JKr-mW-vMk" id="tLA-gb-WoD"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem systemItem="done" id="8TB-LA-Nud">
+                    <connections>
+                        <action selector="doneAction:" destination="JKr-mW-vMk" id="WF1-1I-lsN"/>
                     </connections>
                 </barButtonItem>
             </objects>

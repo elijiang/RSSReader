@@ -19,6 +19,7 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *cancelButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 @end
 
@@ -30,20 +31,7 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
     self.tableView.rowHeight = 66.0f;
     self.navigationItem.leftBarButtonItem = self.editButton;
     self.navigationItem.rightBarButtonItem = self.addButton;
-//    self.navigationController.toolbarHidden = NO;
     self.deleteButton.title = @"Delete";
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-//    self.navigationController.toolbarHidden = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-//    self.navigationController.toolbarHidden = YES;
 }
 
 - (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
@@ -91,12 +79,27 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 
 #pragma mark - Table view delegate
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Feed *feed = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.managedObjectContext deleteObject:feed];
     }
+}
+
+- (void)tableView:(UITableView*)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.navigationItem.leftBarButtonItem = self.doneButton;
+}
+
+- (void)tableView:(UITableView*)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.navigationItem.leftBarButtonItem = self.editButton;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -151,6 +154,7 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 
 - (IBAction)editAction:(id)sender
 {
+    self.tableView.allowsMultipleSelectionDuringEditing = YES;
     self.navigationItem.leftBarButtonItem = self.cancelButton;
     self.navigationItem.rightBarButtonItem = nil;
     self.tableView.editing = YES;
@@ -160,6 +164,7 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
 
 - (IBAction)cancelAction:(id)sender
 {
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
     self.navigationItem.leftBarButtonItem = self.editButton;
     self.navigationItem.rightBarButtonItem = self.addButton;
     self.tableView.editing = NO;
@@ -174,6 +179,11 @@ static const CGFloat kDefaultSeparatorLeftInset = 15.0f;
         [self.managedObjectContext deleteObject:feed];
     }
     [self cancelAction:sender];
+}
+
+- (IBAction)doneAction:(id)sender
+{
+    self.tableView.editing = NO;
 }
 
 #pragma mark - Help functions
