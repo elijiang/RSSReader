@@ -301,7 +301,6 @@
 				ORGANIZATIONNAME = Coremail;
 				TargetAttributes = {
 					1FD2105D18CAAE80006B7B4C = {
-						DevelopmentTeam = GHZSG5U6EB;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
